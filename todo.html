@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDoリスト</title>
+</head>
+<body>
+    <h2>{{ message }}</h2>
+    <p><a href="/todo/admin">ログイン</a></p>
+
+    <h3>未</h3>
+    {% for i in data %}
+        <div>
+            {% if i.check == "0" %}
+                <p>{{ i.things }}</p>
+                <form action="/todo/check/{{ i.id }}" method="PUT">
+                    <button type="submit">完了</button>
+                </form>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <h3>済</h3>
+    {% for i in data %}
+        <div>
+            {% if i.check == "1" %}
+                <p>{{ i.things }}</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+</body>
+</html>
+{% endautoescape %}
