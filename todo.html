@@ -15,7 +15,7 @@
         <div>
             {% if i.check == "0" %}
                 <p>{{ i.things }}</p>
-                <form action="/todo/check/{{ i.id }}" method="PUT">
+                <form action="/todo/check/{{ i.id }}" method="POST">
                     <button type="submit">完了</button>
                 </form>
             {% endif %}

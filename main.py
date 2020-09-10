@@ -23,21 +23,21 @@ def todo():
                     message=message,
                     data=data)
 
-@app.route('/todo/check/<key_id>', methods=['PUT', 'DELETE'])
+@app.route('/todo/check/<key_id>', methods=['POST'])
 def check(key_id=None):
-    if request.method == 'PUT':
-        entity = ds.get_by_id(key_id)
-        if not entity:
-            abort(404)
-            return entity
-    
-        entity['check'] = "1"
-        entity = ds.update(entity)
+    entity = ds.get_by_id(key_id)
+    if not entity:
+        abort(404)
         return entity
-        
-    elif request.method == 'DELETE':
-        ds.delete(key_id)
-        return '', 204
+
+    entity['check'] = "1"
+    ds.update(entity)
+    return redirect('/todo')
+
+@app.route('/todo/delete/<key_id>', methods=['POST'])
+def delete(key_id=None):
+    ds.delete(key_id)
+    return redirect('/todo/admin'), 204
 
 @app.route('/todo/admin')
 def admin():
@@ -54,8 +54,8 @@ def add():
         return redirect('/todo/admin')
     things = addtodo
     check = "0"
-    entity = ds.insert(things, check)
-    return entity, 201
+    ds.insert(things, check)
+    return redirect('/todo/admin'), 201
 
 
 

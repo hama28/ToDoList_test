@@ -11,13 +11,13 @@
 
     <h3>未</h3>
     {% for i in data %}
-        <div>
+        <div class="todolist">
             {% if i.check == "0" %}
                 <p>{{ i.things }}</p>
-                <form action="/todo/check/{{ i.id }}" method="PUT">
+                <form action="/todo/check/{{ i.id }}" method="POST">
                     <button type="submit">完了</button>
                 </form>
-                <form action="/todo/check/{{ i.id }}" method="DELETE">
+                <form action="/todo/delete/{{ i.id }}" method="POST">
                     <button type="submit">削除</button>
                 </form>
             {% endif %}
@@ -35,7 +35,7 @@
         <div>
             {% if i.check == "1" %}
                 <p>{{ i.things }}</p>
-                <form action="/todo/check/{{ i.id }}" method="DELETE">
+                <form action="/todo/delete/{{ i.id }}" method="POST">
                     <button type="submit">削除</button>
                 </form>
             {% endif %}
