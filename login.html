@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDoリスト ログイン</title>
+</head>
+<body>
+    <h1>ログインフォーム</h1>
+
+    <form action="/todo/check_login" method="POST">
+        ユーザー名：<br/>
+        <input type="text" name="name"><br>
+        パスワード：<br>
+        <input type="password" name="pw"><br>
+        <input type="submit" value="ログイン">
+    </form>
+
+    <p><a href="/todo">ToDoリストに戻る</a></p>
+
+</body>
+</html>
+{% endautoescape %}
