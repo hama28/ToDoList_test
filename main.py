@@ -1,7 +1,7 @@
 import logging
 from flask import Flask, abort, request, render_template, redirect, session
 import ds
-import login
+import account
 
 
 app = Flask(__name__)
@@ -12,6 +12,23 @@ app.secret_key = 'm9XE4JH5dBOQK4o4'
 @app.route('/')
 def home():
     return render_template('index.html')
+
+
+@app.route('/todo/test')
+def test():
+    data = account.get_all()
+    return render_template('test.html', data=data)
+
+@app.route('/todo/test/add', methods=['POST'])
+def account_add():
+    name = request.form.get('testname', '')
+    pw = request.form.get('testpw', '')
+    account.insert(name, pw)
+    return """
+        <h1>登録完了</h1>
+        <p><a href="/todo/test">テストに戻る</a></p>
+        """
+
 
 
 # ----- 通常ページ -----
@@ -38,6 +55,9 @@ def check(key_id=None):
 # ----- ログインページ -----
 @app.route('/todo/login')
 def login():
+    # 既にログインしていれば管理画面へ
+    if is_login():
+        return redirect('/todo/admin')
     return render_template('login.html')
 
 @app.route('/todo/check_login', methods=['POST'])
@@ -61,12 +81,12 @@ def check_login():
 
 # ログイン処理を行う
 def try_login(name, pw):
-    entity = login.get_by_id()
+    data = account.get_all()
     # ユーザー名があっているかチェック
-    if entity['name'] != name:
+    if data[0]['name'] != name:
         return False
     # パスワードがあっているかチェック
-    if entity['pw'] != pw:
+    if data[0]['pw'] != pw:
         return False
     # ログイン処理を実行
     session['login'] = name
